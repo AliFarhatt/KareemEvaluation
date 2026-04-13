@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Evaluation for Kareem </title>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap');
+
+:root {
+  /* Dark chrome */
+  --bb-dark:       #111113;
+  --bb-dark2:      #1a1a1d;
+  --bb-dark3:      #242428;
+  --bb-border-hd:  #2e2e33;
+  --bb-txt-hd:     #e4e4ea;
+  --bb-txt-dim:    #6a6a76;
+
+  /* Single accent — restrained blue */
+  --bb-blue:       #1a56db;
+  --bb-blue-h:     #1344b0;
+  --bb-blue-lt:    #f0f4ff;
+  --bb-blue-bd:    #a8bbf5;
+
+  /* Light surfaces — pure white */
+  --bg:            #f4f4f6;
+  --surface:       #ffffff;
+  --border:        #e0e0e6;
+  --border-dk:     #c2c2cc;
+
+  /* Text */
+  --text:          #0d0d11;
+  --text-s:        #1e1e26;
+  --text-m:        #6c6c7a;
+
+  /* States */
+  --answered:      #065f46;
+  --ans-bg:        #ecfdf5;
+  --ans-bd:        #6ee7b7;
+  --danger:        #b91c1c;
+  --danger-bg:     #fef2f2;
+  --danger-bd:     #fca5a5;
+  --mark:          #5b21b6;
+  --mark-bg:       #f5f3ff;
+  --mark-bd:       #a78bfa;
+
+  /* Geometry */
+  --radius:        8px;
+  --radius-lg:     12px;
+  --hdr-h:         52px;
+  --ftr-h:         60px;
+
+  /* Fonts */
+  --math-font:    'KaTeX_Main', 'Latin Modern Roman', 'CMU Serif', Georgia, serif;
+  --math-italic:  'KaTeX_Math', 'KaTeX_Main', 'CMU Serif', Georgia, serif;
+  --prose-font:   'DM Sans', system-ui, sans-serif;
+  --serif-font:   'Lora', Georgia, serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--prose-font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.screen { display: none; }
+.screen.active { display: flex; }
+.hidden { display: none !important; }
+
+/* ═══════════════════════════════════════════════════
+   FRACTIONS — alignment fix
+   ─────────────────────────────────────────────────
+   vertical-align:middle aligns the vertical midpoint
+   of the flex box with (baseline + x-height/2), which
+   places the vinculum at the mathematical axis — exactly
+   where it should sit relative to surrounding text.
+
+   The surrounding containers must have line-height ≥ 2.1
+   so the descending denominator has vertical room and
+   does not clip or crowd adjacent lines.
+═══════════════════════════════════════════════════ */
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  margin: 0 0.1em;
+  line-height: 1;
+  font-family: var(--math-font);
+  font-weight: 400;
+  text-rendering: geometricPrecision;
+  font-kerning: normal;
+}
+.frac .fnum,
+.frac .fden {
+  min-width: 1.1em;
+  padding: 0 0.18em;
+  text-align: center;
+  line-height: 1.2;
+}
+.frac .fnum {
+  border-bottom: 1.2px solid currentColor;
+  font-size: .8em;
+  padding-bottom: 0.06em;
+}
+.frac .fden {
+  font-size: .8em;
+  padding-top: 0.06em;
+}
+
+/* ═══════════════════════════════════════
+   START SCREEN
+═══════════════════════════════════════ */
+#screen-start {
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+.start-card {
+  max-width: 420px;
+  width: 100%;
+  padding: 60px 48px 52px;
+  text-align: center;
+}
+.start-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: .67rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--bb-blue);
+  margin-bottom: 20px;
+}
+.start-eyebrow-rule { width: 18px; height: 1px; background: currentColor; opacity: .45; }
+.start-title {
+  font-family: var(--serif-font);
+  font-size: 1.9rem;
+  font-weight: 400;
+  line-height: 1.26;
+  letter-spacing: -.02em;
+  color: var(--text);
+  margin-bottom: 9px;
+}
+.start-subtitle { color: var(--text-m); font-size: .86rem; margin-bottom: 12px; }
+.start-divider { width: 28px; height: 1px; background: var(--border-dk); margin: 0 auto 34px; }
+.start-form { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+.start-field { display: flex; flex-direction: column; gap: 5px; }
+.start-form label {
+  font-size: .66rem; font-weight: 700; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--text-m);
+}
+.start-form input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: var(--radius);
+  font-family: var(--prose-font); font-size: .93rem;
+  color: var(--text); background: #ffffff; outline: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.start-form input:focus { border-color: var(--bb-blue); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+.start-form input::placeholder { color: #b0b0bc; }
+#btn-start {
+  margin-top: 4px; padding: 12px 20px; width: 100%;
+  background: var(--bb-blue); color: #fff; border: none;
+  border-radius: var(--radius); font-family: var(--prose-font);
+  font-size: .88rem; font-weight: 600; letter-spacing: .03em;
+  cursor: pointer; transition: background .15s, box-shadow .15s, transform .1s;
+}
+#btn-start:hover { background: var(--bb-blue-h); box-shadow: 0 4px 16px rgba(26,86,219,.22); }
+#btn-start:active { transform: scale(.99); }
+.start-note { margin-top: 28px; font-size: .72rem; color: var(--text-m); line-height: 1.65; }
+.resume-banner {
+  margin-top: 16px; background: #fffbeb;
+  border: 1px solid #fcd34d; border-radius: 7px;
+  padding: 10px 14px; font-size: .79rem; color: #92400e;
+  display: none; text-align: left; line-height: 1.55;
+}
+
+/* ═══════════════════════════════════════
+   EXAM SCREEN
+═══════════════════════════════════════ */
+#screen-exam { flex-direction: column; height: 100vh; overflow: hidden; }
+
+/* ── HEADER ── */
+.bb-hdr {
+  height: var(--hdr-h); background: var(--bb-dark);
+  display: flex; align-items: center; padding: 0 20px; gap: 12px;
+  flex-shrink: 0; z-index: 200;
+  border-bottom: 1px solid rgba(255,255,255,.03);
+}
+.bb-hdr-left  { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.bb-hdr-ctr   { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.bb-hdr-right { display: flex; align-items: center; gap: 8px; flex: 1; justify-content: flex-end; }
+
+.bb-sect-label {
+  color: #555560; font-size: .73rem; font-weight: 500;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .01em;
+}
+.bb-dir-btn {
+  background: transparent; border: 1px solid var(--bb-border-hd);
+  border-radius: 5px; color: #5e8fe0;
+  font-size: .67rem; font-weight: 700; padding: 4px 12px;
+  cursor: pointer; font-family: var(--prose-font);
+  white-space: nowrap; letter-spacing: .07em; text-transform: uppercase;
+  transition: background .15s;
+}
+.bb-dir-btn:hover { background: rgba(255,255,255,.06); }
+
+/* Timer */
+.bb-timer-wrap { display: flex; align-items: center; gap: 6px; }
+.bb-timer-num {
+  background: var(--bb-dark2); border: 1px solid var(--bb-border-hd);
+  border-radius: 6px; padding: 5px 16px; color: var(--bb-txt-hd);
+  font-size: .87rem; font-weight: 600; font-variant-numeric: tabular-nums;
+  min-width: 72px; text-align: center; letter-spacing: .1em;
+  transition: background .3s, border-color .3s, color .3s;
+}
+.bb-timer-num.warn { background: #261800; border-color: #a07000; color: #fde68a; }
+.bb-timer-num.crit { background: #220808; border-color: #b82020; color: #fca5a5; }
+.bb-timer-num.ghost { color: #2e2e34; letter-spacing: .1em; }
+.bb-timer-tog {
+  background: transparent; border: none; color: #363640;
+  font-size: .63rem; font-weight: 700; cursor: pointer;
+  font-family: var(--prose-font); padding: 3px 5px; border-radius: 3px;
+  transition: color .15s, background .15s;
+  white-space: nowrap; letter-spacing: .07em; text-transform: uppercase;
+}
+.bb-timer-tog:hover { color: var(--bb-txt-hd); background: rgba(255,255,255,.07); }
+
+/* Tool buttons */
+.bb-tool-btn {
+  background: transparent; border: 1px solid var(--bb-border-hd);
+  border-radius: 6px; color: #7a7a86;
+  font-size: .67rem; font-weight: 600; padding: 6px 14px;
+  cursor: pointer; font-family: var(--prose-font); white-space: nowrap;
+  transition: background .15s, border-color .15s, color .15s;
+  display: flex; align-items: center; gap: 7px;
+  letter-spacing: .05em; text-transform: uppercase;
+}
+.bb-tool-btn:hover { background: rgba(255,255,255,.06); border-color: #44444c; color: var(--bb-txt-hd); }
+.bb-tool-btn.active-tool { background: rgba(26,86,219,.15); border-color: #3c68cc; color: #7ea8f6; }
+.bb-submit-btn { color: #cc7070; border-color: #321010; background: rgba(60,8,8,.15); }
+.bb-submit-btn:hover { background: rgba(120,16,16,.2) !important; border-color: #883030; color: #ffb4b4; }
+
+/* ── MAIN ── */
+.bb-main { flex: 1; display: flex; flex-direction: row; overflow: hidden; min-height: 0; position: relative; }
+
+/* ── CALCULATOR PANE ── */
+.calc-pane {
+  width: 40%; min-width: 280px; max-width: 65%;
+  background: #fff; border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; flex-shrink: 0; overflow: hidden;
+}
+.calc-pane-hd {
+  background: var(--bb-dark); color: #48484f;
+  font-size: .62rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  padding: 9px 16px; display: flex; align-items: center; justify-content: space-between; flex-shrink: 0;
+}
+.calc-pane-close {
+  background: transparent; border: none; color: #404048;
+  font-size: .64rem; font-weight: 600; letter-spacing: .05em;
+  cursor: pointer; font-family: var(--prose-font); padding: 2px 8px; border-radius: 3px;
+  transition: color .15s, background .15s;
+}
+.calc-pane-close:hover { color: #7a7a86; background: rgba(255,255,255,.07); }
+#desmos-wrap { flex: 1; overflow: hidden; }
+
+/* ── DIVIDER ── */
+.pane-divider {
+  width: 4px; background: var(--border); cursor: col-resize;
+  flex-shrink: 0; position: relative; transition: background .15s; z-index: 10;
+}
+.pane-divider:hover, .pane-divider.dragging { background: var(--bb-blue); }
+.pane-divider::after {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  width: 2px; height: 24px; background: currentColor; border-radius: 2px; opacity: .3;
+}
+
+/* ── QUESTION PANE ── */
+.q-pane {
+  flex: 1; overflow-y: auto; min-width: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 40px 28px 56px; background: var(--bg); scroll-behavior: smooth;
+}
+.q-pane::-webkit-scrollbar { width: 5px; }
+.q-pane::-webkit-scrollbar-track { background: transparent; }
+.q-pane::-webkit-scrollbar-thumb { background: #d0d0d8; border-radius: 3px; }
+
+/* ── QUESTION CARD ── */
+.bb-q-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 16px rgba(0,0,0,.05);
+  width: 100%; max-width: 720px; display: flex; flex-direction: column;
+}
+.bb-q-meta {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 28px; border-bottom: 1px solid var(--border); gap: 12px;
+}
+.bb-q-num-badge {
+  font-size: .67rem; font-weight: 700;
+  letter-spacing: .09em; text-transform: uppercase;
+  color: var(--text-m); font-family: var(--prose-font);
+}
+.bb-mark-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent; border: 1.5px solid var(--border);
+  border-radius: 20px; padding: 4px 14px;
+  font-size: .67rem; font-weight: 700;
+  letter-spacing: .04em; text-transform: uppercase;
+  color: var(--text-m); cursor: pointer; font-family: var(--prose-font);
+  white-space: nowrap; transition: all .15s;
+}
+.bb-mark-btn:hover { border-color: var(--mark-bd); color: var(--mark); background: var(--mark-bg); }
+.bb-mark-btn.marked { background: var(--mark-bg); border-color: var(--mark-bd); color: var(--mark); }
+
+/* ── QUESTION BODY ── */
+.bb-q-body { padding: 36px 40px 44px; }
+
+/* ── QUESTION TEXT ── */
+.question-content {
+  font-family: var(--prose-font);
+  font-size: 1.05rem;
+  /*
+    line-height 2.1 gives inline fractions (~1.8em tall) room
+    above and below without crowding adjacent lines.
+  */
+  line-height: 2.1;
+  color: var(--text);
+  user-select: text;
+}
+.question-content .q-text { font-family: var(--prose-font); }
+
+/* Math uses KaTeX fonts */
+.question-content .math-block,
+.question-content .math-inline,
+.question-content .frac,
+.question-content .frac *,
+.bb-ch-text,
+.bb-ch-text .frac,
+.bb-ch-text .frac *,
+.bb-open-input,
+.review-ans-value,
+.review-ans-value .frac,
+.review-ans-value .frac * {
+  font-family: var(--math-font);
+  font-weight: 400;
+  text-rendering: geometricPrecision;
+  font-kerning: normal;
+}
+
+/*
+  Display math block. line-height 2.6 accommodates stacked
+  fractions: the fraction is ~1.8em tall + surrounding text
+  each needs half a line of leading.
+*/
+.question-content .math-block {
+  display: block; text-align: center;
+  margin: 28px 0 24px;
+  font-size: 1.18rem; font-style: normal;
+  color: var(--text); letter-spacing: 0;
+  line-height: 2.6;
+}
+
+.question-content em,
+.question-content .math-inline em,
+.bb-ch-text em,
+.q-table em,
+.review-ans-value em {
+  font-family: var(--math-italic);
+  font-style: italic; font-weight: 400;
+}
+.question-content .math-inline { font-size: 1.02em; }
+.question-content .math-block .frac { font-size: 1em; }
+
+/* ── TABLE ── */
+.q-table { border-collapse: collapse; margin: 20px auto; font-family: var(--prose-font); font-size: .9rem; }
+.q-table th, .q-table td { border: 1px solid var(--border-dk); padding: 9px 26px; text-align: center; }
+.q-table th { background: #f4f4f6; font-weight: 600; font-size: .74rem; letter-spacing: .07em; text-transform: uppercase; color: var(--text-m); }
+.q-table em { font-size: 1em; }
+.q-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 20px; }
+
+/* ── HIGHLIGHTS ── */
+.hl-yellow { background: #fef08a; border-radius: 2px; padding: 1px 0; }
+.hl-blue   { background: #bae6fd; border-radius: 2px; padding: 1px 0; }
+.hl-pink   { background: #fbcfe8; border-radius: 2px; padding: 1px 0; }
+.hl-ul     { text-decoration: underline; text-decoration-color: #2563eb; text-decoration-thickness: 1.5px; }
+
+/* ── HIGHLIGHT TOOLBAR ── */
+#hl-toolbar {
+  position: fixed; z-index: 9999;
+  background: #fff; border: 1px solid #d8d8e0;
+  border-radius: 100px; padding: 6px 12px;
+  display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.06);
+  pointer-events: auto; opacity: 0; transform: translateY(4px);
+  transition: opacity .12s, transform .12s;
+}
+#hl-toolbar.visible { opacity: 1; transform: translateY(0); }
+.hl-swatch { width: 21px; height: 21px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: transform .12s, box-shadow .12s; flex-shrink: 0; }
+.hl-swatch:hover { transform: scale(1.2); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
+.hl-swatch.yellow { background: #fef08a; }
+.hl-swatch.blue   { background: #bae6fd; }
+.hl-swatch.pink   { background: #fbcfe8; }
+.hl-sep { width: 1px; height: 16px; background: #e4e4ec; flex-shrink: 0; }
+.hl-btn { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid #ddd; background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: .68rem; font-weight: 700; color: var(--text-s); transition: background .12s, border-color .12s; flex-shrink: 0; }
+.hl-btn:hover { background: #f3f3f7; border-color: #9ca3af; }
+.hl-btn.ul-btn { font-family: var(--math-font); font-size: .86rem; text-decoration: underline; text-decoration-color: #2563eb; text-decoration-thickness: 1.5px; }
+.hl-btn.del-btn { border-color: #fecdd3; color: var(--danger); font-size: .8rem; }
+.hl-btn.del-btn:hover { background: #fef2f2; }
+
+/* ── MCQ CHOICES ── */
+.bb-choices { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 28px; }
+.bb-choice-row { display: flex; align-items: center; gap: 10px; }
+.bb-choice {
+  flex: 1; display: flex; align-items: center; gap: 0;
+  border: 1.5px solid var(--border-dk); border-radius: 9px; overflow: hidden;
+  transition: border-color .13s, box-shadow .13s, background .13s;
+  cursor: pointer; background: var(--surface); min-height: 54px;
+}
+.bb-choice:hover:not(.xd) { border-color: var(--bb-blue); box-shadow: 0 0 0 3px rgba(26,86,219,.07); background: #f9fbff; }
+.bb-choice.sel { border-color: var(--bb-blue); box-shadow: 0 0 0 3px rgba(26,86,219,.1); background: var(--bb-blue-lt); }
+.bb-choice.xd { opacity: .26; cursor: default; pointer-events: none; }
+.bb-choice.xd .bb-ch-text { text-decoration: line-through; text-decoration-color: var(--text-m); text-decoration-thickness: 1.5px; }
+.bb-ch-inner { display: flex; align-items: center; flex: 1; padding: 13px 20px; gap: 16px; user-select: none; }
+.bb-ch-letter {
+  width: 29px; height: 29px; min-width: 29px; border-radius: 50%;
+  border: 1.5px solid var(--border-dk);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; font-size: .72rem; color: var(--text-m);
+  font-family: var(--prose-font); transition: all .13s; flex-shrink: 0; background: #fff;
+}
+.bb-choice.sel .bb-ch-letter { background: var(--bb-blue); border-color: var(--bb-blue); color: #fff; }
+/*
+  Choice text: generous line-height so fractions inside choices
+  (e.g. "−11/3 x + 2") have vertical breathing room.
+*/
+.bb-ch-text {
+  font-family: var(--math-font); font-size: 1.03rem; font-weight: 400;
+  color: var(--text); flex: 1; line-height: 1.9; letter-spacing: 0;
+}
+.bb-ch-text em { font-style: italic; }
+
+/* ── CROSS-OUT BUTTON ── */
+.bb-xbtn-ext {
+  width: 29px; height: 29px; flex-shrink: 0; border-radius: 50%;
+  border: 1.5px solid var(--border); background: transparent; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--prose-font); font-size: .69rem; font-weight: 600; color: var(--text-m);
+  position: relative; transition: border-color .13s, color .13s, background .13s; overflow: visible;
+}
+.bb-xbtn-ext::before {
+  content: ''; position: absolute; left: -4px; right: -4px;
+  top: 50%; transform: translateY(-50%);
+  height: 1.5px; background: currentColor; opacity: 0; transition: opacity .13s;
+}
+.bb-xbtn-ext:hover { border-color: var(--border-dk); color: var(--text-s); background: #f0f0f4; }
+.bb-xbtn-ext.crossed { border-color: var(--border-dk); color: var(--text-s); background: #ebebf0; }
+.bb-xbtn-ext.crossed::before { opacity: 1; }
+.bb-xbtn-ext:focus { outline: none; }
+
+/* ── OPEN RESPONSE ── */
+.bb-open-wrap { margin-top: 30px; display: flex; flex-direction: column; gap: 8px; }
+.bb-open-label { font-size: .64rem; font-weight: 700; color: var(--text-m); letter-spacing: .12em; text-transform: uppercase; }
+.bb-open-input {
+  padding: 12px 16px; border: 1.5px solid var(--border-dk); border-radius: var(--radius);
+  font-family: var(--math-font); font-size: 1.04rem; color: var(--text); background: #fff;
+  width: 100%; max-width: 280px; outline: none; letter-spacing: 0;
+  transition: border-color .15s, box-shadow .15s;
+}
+.bb-open-input:focus { border-color: var(--bb-blue); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+
+/* ═══════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════ */
+.bb-ftr {
+  height: var(--ftr-h); background: var(--bb-dark);
+  display: flex; align-items: center; padding: 0 20px; gap: 12px;
+  flex-shrink: 0; z-index: 200; border-top: 1px solid rgba(255,255,255,.025);
+}
+.bb-ftr-left  { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.bb-ftr-ctr   { flex-shrink: 0; }
+.bb-ftr-right { flex: 1; display: flex; justify-content: flex-end; gap: 8px; }
+.bb-logo-area {
+  width: 33px; height: 33px; border-radius: 5px; border: 1.5px dashed #282830;
+  background: rgba(255,255,255,.02); display: flex; align-items: center; justify-content: center;
+  cursor: pointer; flex-shrink: 0; overflow: hidden; transition: border-color .15s, background .15s;
+}
+.bb-logo-area:hover { border-color: #40404a; background: rgba(255,255,255,.06); }
+.bb-logo-area img { width: 100%; height: 100%; object-fit: contain; display: none; }
+.bb-logo-placeholder { font-size: .42rem; font-weight: 700; letter-spacing: .04em; color: #282830; text-align: center; text-transform: uppercase; line-height: 1.3; pointer-events: none; }
+#logo-upload-input { display: none; }
+.bb-sname { color: #38383e; font-size: .71rem; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bb-navctr-btn {
+  background: var(--bb-dark2); border: 1px solid var(--bb-border-hd);
+  border-radius: 6px; color: #606068; font-size: .73rem; font-weight: 500; padding: 7px 20px;
+  cursor: pointer; font-family: var(--prose-font); white-space: nowrap;
+  transition: background .15s, color .15s; letter-spacing: .01em;
+}
+.bb-navctr-btn:hover { background: var(--bb-dark3); color: var(--bb-txt-hd); }
+.bb-btn-back {
+  padding: 8px 18px; border-radius: 6px; font-family: var(--prose-font);
+  font-size: .75rem; font-weight: 500; cursor: pointer; background: transparent;
+  border: 1.5px solid var(--bb-border-hd); color: #606068; white-space: nowrap;
+  transition: all .15s; letter-spacing: .01em;
+}
+.bb-btn-back:hover:not(:disabled) { background: var(--bb-dark2); border-color: #42424c; color: var(--bb-txt-hd); }
+.bb-btn-back:disabled { opacity: .16; cursor: not-allowed; }
+.bb-btn-next {
+  padding: 8px 22px; border-radius: 6px; font-family: var(--prose-font);
+  font-size: .75rem; font-weight: 600; cursor: pointer;
+  background: var(--bb-blue); border: none; color: #fff;
+  white-space: nowrap; letter-spacing: .02em; transition: background .15s, transform .1s;
+}
+.bb-btn-next:hover { background: var(--bb-blue-h); }
+.bb-btn-next:active { transform: scale(.98); }
+.bb-btn-next.last-q { background: #166534; }
+.bb-btn-next.last-q:hover { background: #14532d; }
+
+/* ═══════════════════════════════════════
+   NAVIGATOR OVERLAY
+═══════════════════════════════════════ */
+#nav-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.44); z-index: 600; display: flex; align-items: flex-end; justify-content: center; }
+.bb-nav-panel {
+  background: var(--surface); border-radius: 12px 12px 0 0;
+  padding: 24px 22px 20px; width: 100%; max-width: 640px; max-height: 62vh;
+  overflow-y: auto; box-shadow: 0 -8px 40px rgba(0,0,0,.1);
+}
+.bb-nav-ph {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border); gap: 12px; flex-wrap: wrap;
+}
+.bb-nav-ph h3 { font-size: .63rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: var(--text-m); }
+.bb-nav-legend { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.bb-nav-li { display: flex; align-items: center; gap: 5px; font-size: .68rem; color: var(--text-m); }
+.bb-nav-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.nd-ans  { background: #10b981; }
+.nd-cur  { background: var(--bb-blue); }
+.nd-mark { background: var(--mark-bd); }
+.nd-none { background: var(--border-dk); }
+.bb-nav-palette { display: grid; grid-template-columns: repeat(auto-fill, minmax(40px, 1fr)); gap: 7px; margin-bottom: 18px; }
+.bb-nav-q {
+  aspect-ratio: 1; border-radius: 50%; border: 1.5px solid var(--border-dk);
+  background: var(--surface); font-size: .71rem; font-weight: 600;
+  cursor: pointer; color: var(--text-m); font-family: var(--prose-font); transition: all .11s;
+}
+.bb-nav-q:hover { border-color: var(--bb-blue); color: var(--bb-blue); background: var(--bb-blue-lt); }
+.bb-nav-q.cur  { background: var(--bb-blue); border-color: var(--bb-blue); color: #fff; }
+.bb-nav-q.ans  { background: var(--ans-bg); border-color: #10b981; color: var(--answered); }
+.bb-nav-q.mrk  { background: var(--mark-bg); border-color: var(--mark-bd); color: var(--mark); }
+.bb-nav-close {
+  width: 100%; padding: 10px; background: #f0f0f5; color: var(--text-s); border: none;
+  border-radius: var(--radius); font-family: var(--prose-font); font-size: .79rem; font-weight: 600;
+  cursor: pointer; transition: background .15s; letter-spacing: .04em;
+}
+.bb-nav-close:hover { background: #e8e8ee; }
+
+/* ═══════════════════════════════════════
+   DIRECTIONS MODAL
+═══════════════════════════════════════ */
+#dir-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 700; display: flex; align-items: center; justify-content: center; padding: 24px; }
+.bb-dir-panel { background: var(--surface); border-radius: var(--radius-lg); max-width: 600px; width: 100%; max-height: 80vh; display: flex; flex-direction: column; box-shadow: 0 24px 60px rgba(0,0,0,.16); }
+.bb-dir-hd { padding: 24px 28px 18px; border-bottom: 1px solid var(--border); }
+.bb-dir-hd h2 { font-family: var(--serif-font); font-size: 1.2rem; font-weight: 400; color: var(--text); }
+.bb-dir-body { padding: 22px 28px; overflow-y: auto; flex: 1; font-family: var(--prose-font); font-size: .91rem; line-height: 1.75; color: var(--text-s); }
+.bb-dir-body p { margin-bottom: 12px; }
+.bb-dir-body ul { margin: 6px 0 12px 22px; }
+.bb-dir-body li { margin-bottom: 6px; }
+.bb-dir-body strong { font-weight: 600; color: var(--text); }
+.bb-dir-ft { padding: 16px 28px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+.bb-dir-close { padding: 9px 26px; background: var(--bb-blue); color: #fff; border: none; border-radius: var(--radius); font-family: var(--prose-font); font-size: .84rem; font-weight: 600; cursor: pointer; transition: background .15s; }
+.bb-dir-close:hover { background: var(--bb-blue-h); }
+
+/* ═══════════════════════════════════════
+   SUBMIT CONFIRM MODAL
+═══════════════════════════════════════ */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.36); display: flex; align-items: center; justify-content: center; z-index: 999; }
+.modal-box { background: var(--surface); border-radius: var(--radius-lg); padding: 36px 40px; max-width: 400px; width: 90%; box-shadow: 0 16px 48px rgba(0,0,0,.14); }
+.modal-box h3 { font-family: var(--serif-font); font-size: 1.2rem; font-weight: 400; margin-bottom: 10px; color: var(--text); }
+.modal-box p { color: var(--text-m); line-height: 1.65; margin-bottom: 28px; font-size: .9rem; }
+.modal-buttons { display: flex; gap: 10px; justify-content: flex-end; }
+.btn-modal-cancel { padding: 9px 20px; border: 1.5px solid var(--border-dk); background: var(--surface); border-radius: var(--radius); font-family: var(--prose-font); font-size: .83rem; font-weight: 500; cursor: pointer; transition: background .15s; color: var(--text-s); }
+.btn-modal-cancel:hover { background: var(--bg); }
+.btn-modal-confirm { padding: 9px 20px; border: none; background: var(--danger); color: #fff; border-radius: var(--radius); font-family: var(--prose-font); font-size: .83rem; font-weight: 600; cursor: pointer; transition: background .15s; }
+.btn-modal-confirm:hover { background: #991b1b; }
+
+/* ═══════════════════════════════════════
+   SUBMITTED SCREEN
+═══════════════════════════════════════ */
+#screen-submitted { min-height: 100vh; align-items: center; justify-content: center; background: #ffffff; padding: 40px 24px; }
+.submitted-card { max-width: 400px; width: 100%; text-align: center; display: flex; flex-direction: column; align-items: center; }
+.submitted-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--ans-bg); color: var(--answered); display: flex; align-items: center; justify-content: center; margin: 0 auto 22px; border: 1.5px solid var(--ans-bd); }
+.submitted-card h2 { font-family: var(--serif-font); font-size: 1.55rem; font-weight: 400; margin-bottom: 10px; color: var(--text); }
+.submitted-card > p { color: var(--text-m); font-size: .9rem; line-height: 1.65; }
+.submitted-small { margin-top: 10px; font-size: .74rem !important; color: var(--text-m) !important; }
+.score-box { margin: 28px auto 0; background: var(--bb-blue-lt); border: 1.5px solid var(--bb-blue-bd); border-radius: 10px; padding: 22px 36px; display: inline-block; min-width: 200px; }
+.score-box .score-num { font-family: var(--serif-font); font-size: 2.4rem; font-weight: 400; color: var(--bb-blue); line-height: 1; }
+.score-box .score-label { font-size: .64rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--bb-blue); margin-top: 8px; opacity: .65; }
+.score-box .score-pct { font-size: .9rem; color: var(--text-m); margin-top: 6px; }
+.btn-review { margin-top: 24px; padding: 11px 28px; background: var(--bb-blue); color: #fff; border: none; border-radius: var(--radius); font-family: var(--prose-font); font-size: .88rem; font-weight: 600; cursor: pointer; transition: background .15s; letter-spacing: .02em; }
+.btn-review:hover { background: var(--bb-blue-h); }
+.email-status { margin-top: 16px; font-size: .77rem; padding: 8px 16px; border-radius: 6px; display: none; }
+.email-status.sending { background: #fffbeb; color: #92400e; border: 1px solid #fcd34d; display: block; }
+.email-status.sent    { background: var(--ans-bg); color: var(--answered); border: 1px solid var(--ans-bd); display: block; }
+.email-status.failed  { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-bd); display: block; }
+
+/* ═══════════════════════════════════════
+   REVIEW SCREEN
+═══════════════════════════════════════ */
+#screen-review { flex-direction: column; min-height: 100vh; background: var(--bg); }
+.review-header { background: #ffffff; border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 4px rgba(0,0,0,.04); gap: 12px; }
+.review-header h2 { font-family: var(--serif-font); font-size: 1rem; font-weight: 400; color: var(--text); }
+.review-score-pill { background: var(--bb-blue-lt); border: 1.5px solid var(--bb-blue-bd); color: var(--bb-blue); font-weight: 700; font-size: .83rem; padding: 5px 16px; border-radius: 20px; white-space: nowrap; }
+.review-body { max-width: 800px; margin: 0 auto; width: 100%; padding: 32px 24px; display: flex; flex-direction: column; gap: 16px; }
+.review-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+.review-card-header { display: flex; align-items: center; gap: 12px; padding: 12px 20px; border-bottom: 1px solid var(--border); background: #fafafa; }
+.review-q-num { font-size: .64rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--text-m); }
+.review-badge { font-size: .65rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-left: auto; letter-spacing: .02em; }
+.review-badge.correct { background: var(--ans-bg); color: var(--answered); border: 1px solid var(--ans-bd); }
+.review-badge.wrong   { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-bd); }
+.review-badge.skipped { background: #f2f2f6; color: var(--text-m); border: 1px solid var(--border-dk); }
+/* generous line-height here too for any fractions in review */
+.review-card-body { padding: 20px 24px; font-family: var(--prose-font); font-size: .94rem; line-height: 2.1; color: var(--text-s); }
+.review-answers { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; font-size: .85rem; }
+.review-answer-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 12px; border-radius: 7px; }
+.review-answer-row.student-correct { background: var(--ans-bg); border: 1px solid var(--ans-bd); }
+.review-answer-row.student-wrong   { background: var(--danger-bg); border: 1px solid var(--danger-bd); }
+.review-answer-row.correct-ans     { background: var(--bb-blue-lt); border: 1px solid var(--bb-blue-bd); }
+.review-answer-row.skipped-row     { background: #f2f2f6; border: 1px solid var(--border-dk); }
+.review-ans-icon  { font-size: .88rem; flex-shrink: 0; margin-top: 1px; }
+.review-ans-label { font-weight: 600; flex-shrink: 0; color: var(--text-s); }
+.review-ans-value { font-family: var(--math-font); line-height: 2.1; }
+
+/* ═══════════════════════════════════════
+   MOBILE
+═══════════════════════════════════════ */
+@media (max-width: 700px) {
+  .start-card { padding: 40px 22px; }
+  .start-title { font-size: 1.6rem; }
+  .bb-sect-label { display: none; }
+  .bb-hdr { padding: 0 12px; gap: 6px; }
+  .btn-label { display: none; }
+  .bb-main { flex-direction: column; }
+  .calc-pane { width: 100% !important; height: 45vh; min-width: unset; border-right: none; border-bottom: 1px solid var(--border); }
+  .pane-divider { display: none !important; }
+  .q-pane { padding: 16px 12px 28px; }
+  .bb-q-body { padding: 20px 18px 26px; }
+  .bb-ftr { padding: 0 12px; gap: 6px; }
+  .bb-ftr-left { flex: none; }
+  .bb-sname { display: none; }
+  .bb-ftr-ctr { flex: 1; }
+  .submitted-card { padding: 32px 20px; }
+  .score-box { min-width: unset; width: 100%; }
+  .q-table { display: block; overflow-x: auto; }
+  .bb-nav-palette { grid-template-columns: repeat(6, 1fr); }
+  .review-header { padding: 12px 16px; flex-wrap: wrap; }
+  .review-body { padding: 14px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════ START SCREEN ═══════ -->
+<div id="screen-start" class="screen active">
+  <div class="start-card">
+    <div class="start-eyebrow">
+      <span class="start-eyebrow-rule"></span>
+      Mathematics Assessment
+      <span class="start-eyebrow-rule"></span>
+    </div>
+    <h1 class="start-title">Evaluation for Kareem</h1>
+    <p class="start-subtitle">40 Minutes &nbsp;·&nbsp; 30 Questions</p>
+    <div class="start-divider"></div>
+    <div class="start-form">
+      <div class="start-field">
+        <label for="access-code">Class Access Code</label>
+        <input type="password" id="access-code" placeholder="Enter the code given by your teacher…" autocomplete="off"/>
+      </div>
+      <div class="start-field">
+        <label for="student-name">Student Name</label>
+        <input type="text" id="student-name" placeholder="Enter your full name…" autocomplete="off"/>
+      </div>
+      <button id="btn-start" onclick="startExam()">Begin Exam</button>
+    </div>
+    <div class="resume-banner" id="resume-banner">
+      A saved session was found. Enter the same student name to resume where you left off.
+    </div>
+    <p class="start-note">Do not close this browser tab once the exam has started.</p>
+  </div>
+</div>
+
+<!-- ═══════ EXAM SCREEN ═══════ -->
+<div id="screen-exam" class="screen">
+
+  <!-- TOP HEADER -->
+  <header class="bb-hdr">
+    <div class="bb-hdr-left">
+      <span class="bb-sect-label">Evaluation for Kareem</span>
+      <button class="bb-dir-btn" type="button" onclick="openDirections()">Directions</button>
+    </div>
+    <div class="bb-hdr-ctr">
+      <div class="bb-timer-wrap">
+        <div class="bb-timer-num" id="timer-box">40:00</div>
+        <button class="bb-timer-tog" id="timer-tog" type="button" onclick="toggleTimer()">Hide</button>
+      </div>
+    </div>
+    <div class="bb-hdr-right">
+      <button class="bb-tool-btn" id="calc-toggle-btn" type="button" onclick="toggleCalculator()">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x=".75" y=".75" width="11.5" height="11.5" rx="1.5" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="2.5" y="2.5" width="3" height="2" rx=".5" fill="currentColor"/>
+          <rect x="7.5" y="2.5" width="3" height="2" rx=".5" fill="currentColor"/>
+          <rect x="2.5" y="5.9" width="3" height="1.3" rx=".5" fill="currentColor"/>
+          <rect x="7.5" y="5.9" width="3" height="1.3" rx=".5" fill="currentColor"/>
+          <rect x="2.5" y="8.7" width="3" height="1.3" rx=".5" fill="currentColor"/>
+          <rect x="7.5" y="8.7" width="3" height="1.3" rx=".5" fill="currentColor"/>
+        </svg>
+        <span class="btn-label">Calculator</span>
+      </button>
+      <button class="bb-tool-btn bb-submit-btn" type="button" onclick="confirmSubmit()">
+        <span class="btn-label">Submit Exam</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN: split pane -->
+  <div class="bb-main" id="bb-main">
+
+    <!-- CALCULATOR PANE -->
+    <div class="calc-pane hidden" id="calc-pane">
+      <div class="calc-pane-hd">
+        <span>Desmos Calculator</span>
+        <button class="calc-pane-close" type="button" onclick="toggleCalculator()">Close</button>
+      </div>
+      <div id="desmos-wrap"></div>
+    </div>
+
+    <!-- DRAG DIVIDER -->
+    <div class="pane-divider hidden" id="pane-divider" onmousedown="startPaneResize(event)"></div>
+
+    <!-- QUESTION PANE -->
+    <div class="q-pane" id="q-pane">
+      <div class="bb-q-card">
+        <div class="bb-q-meta">
+          <div class="bb-q-num-badge" id="q-number-label">Question 1 of 25</div>
+          <button class="bb-mark-btn" id="mark-review-btn" type="button" onclick="toggleMarkForReview()">⚑ Mark for Review</button>
+        </div>
+        <div class="bb-q-body">
+          <div class="question-content" id="question-content"></div>
+          <div id="answer-area"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM FOOTER -->
+  <footer class="bb-ftr">
+    <div class="bb-ftr-left">
+      <span class="bb-sname" id="footer-student-name"></span>
+    </div>
+    <div class="bb-ftr-ctr">
+      <button class="bb-navctr-btn" type="button" onclick="openNavigator()">
+        Question <span id="nav-q-cur">1</span> of 30 &nbsp;▴
+      </button>
+    </div>
+    <div class="bb-ftr-right">
+      <button class="bb-btn-back" id="btn-prev" type="button" onclick="prevQuestion()" disabled>← Back</button>
+      <button class="bb-btn-next" id="btn-next" type="button" onclick="nextQuestion()">Next →</button>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════ SUBMITTED SCREEN ═══════ -->
+<div id="screen-submitted" class="screen">
+  <div class="submitted-card">
+    <div class="submitted-icon">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 11.5L8.5 16L18 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2>Submitted Successfully</h2>
+    <p>Your exam has been recorded. Results have been sent to your teacher.</p>
+    <div id="score-display" class="score-box" style="display:none">
+      <div class="score-num" id="score-fraction">— / —</div>
+      <div class="score-label">Correct Answers</div>
+      <div class="score-pct" id="score-pct"></div>
+    </div>
+    <div id="email-status" class="email-status"></div>
+    <button class="btn-review" onclick="showReview()">Review My Answers</button>
+    <p class="submitted-small">You may now close this tab.</p>
+  </div>
+</div>
+
+<!-- ═══════ REVIEW SCREEN ═══════ -->
+<div id="screen-review" class="screen">
+  <div class="review-header">
+    <h2>Answer Review — Evaluation for Kareem</h2>
+    <div style="display:flex;align-items:center;gap:12px">
+      <span class="review-score-pill" id="review-score-pill">— / 18</span>
+      <button onclick="showScreen('screen-submitted')" style="padding:7px 16px;font-size:.77rem;border:1.5px solid var(--border-dk);background:var(--surface);border-radius:var(--radius);cursor:pointer;font-family:inherit;font-weight:500;color:var(--text-s);">← Back</button>
+    </div>
+  </div>
+  <div class="review-body" id="review-body"></div>
+</div>
+
+<!-- ═══════ NAVIGATOR OVERLAY ═══════ -->
+<div id="nav-overlay" class="hidden">
+  <div class="bb-nav-panel">
+    <div class="bb-nav-ph">
+      <h3>Question Navigator</h3>
+      <div class="bb-nav-legend">
+        <div class="bb-nav-li"><span class="bb-nav-dot nd-ans"></span> Answered</div>
+        <div class="bb-nav-li"><span class="bb-nav-dot nd-cur"></span> Current</div>
+        <div class="bb-nav-li"><span class="bb-nav-dot nd-mark"></span> Marked</div>
+        <div class="bb-nav-li"><span class="bb-nav-dot nd-none"></span> Unanswered</div>
+      </div>
+    </div>
+    <div class="bb-nav-palette" id="nav-palette"></div>
+    <button class="bb-nav-close" type="button" onclick="closeNavigator()">Close Navigator</button>
+  </div>
+</div>
+
+<!-- ═══════ DIRECTIONS MODAL ═══════ -->
+<div id="dir-overlay" class="hidden">
+  <div class="bb-dir-panel">
+    <div class="bb-dir-hd"><h2>Directions</h2></div>
+    <div class="bb-dir-body">
+      <p>The questions in this section address a number of important math skills.</p>
+      <p><strong>Use of a calculator is permitted</strong> for all questions. Click <em>Calculator</em> in the top toolbar to open the Desmos graphing calculator alongside your question.</p>
+      <p>Unless otherwise indicated:</p>
+      <ul>
+        <li>All variables and expressions represent real numbers.</li>
+        <li>Figures provided are drawn to scale.</li>
+        <li>All figures lie in a plane.</li>
+        <li>The domain of a given function <em>f</em> is the set of all real numbers <em>x</em> for which <em>f(x)</em> is a real number.</li>
+      </ul>
+      <p><strong>For multiple-choice questions:</strong> Select the single best answer. Click a selected answer again to deselect it. Use the circular button to the right of each choice to cross it out.</p>
+      <p><strong>For open-response questions:</strong> Enter your answer exactly in the text box. Fractions may be written in the form <em>a/b</em>.</p>
+      <p><strong>Highlighting:</strong> Select any text in a question to apply a highlight or underline using the toolbar that appears.</p>
+      <p>You may mark questions for review and return to them before submitting.</p>
+    </div>
+    <div class="bb-dir-ft">
+      <button class="bb-dir-close" type="button" onclick="closeDirections()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ SUBMIT CONFIRM MODAL ═══════ -->
+<div id="modal-overlay" class="modal-overlay hidden">
+  <div class="modal-box">
+    <h3>Submit Exam?</h3>
+    <p id="modal-message"></p>
+    <div class="modal-buttons">
+      <button class="btn-modal-cancel" onclick="closeModal()">Go Back</button>
+      <button class="btn-modal-confirm" id="modal-confirm-btn">Submit Exam</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ HIGHLIGHT TOOLBAR ═══════ -->
+<div id="hl-toolbar">
+  <div class="hl-swatch yellow" title="Highlight yellow" onclick="applyHighlight('yellow')"></div>
+  <div class="hl-swatch blue"   title="Highlight blue"   onclick="applyHighlight('blue')"></div>
+  <div class="hl-swatch pink"   title="Highlight pink"   onclick="applyHighlight('pink')"></div>
+  <div class="hl-sep"></div>
+  <button class="hl-btn ul-btn"  title="Underline"           onclick="applyUnderline()">U</button>
+  <button class="hl-btn del-btn" title="Remove formatting"    onclick="removeHighlight()">✕</button>
+</div>
+
+<script>
+/* ══════════════════════════════════════════
+   CONFIG
+══════════════════════════════════════════ */
+const EXAM_DURATION_SECONDS   = 2400;
+const EXAM_TITLE              = "Evaluation for Kareem";
+const EMAILJS_PUBLIC_KEY      = "AWaz2SLFBz0DYBhLQ";
+const EMAILJS_SERVICE_ID      = "service_2gx7k5a";
+const EMAILJS_TEMPLATE_ID     = "template_nvb1v3n";
+const RECIPIENT_EMAIL         = "roumiyehmostafa@gmail.com";
+const LS_KEY                  = "KareemEvaluation_session_v1";
+
+/* ══════════════════════════════════════════
+   QUESTIONS
+══════════════════════════════════════════ */
+const questions = [
+  {number:1,type:"mcq",text:`A construction company transports only 140-pound steel beams and 160-pound steel beams. For each delivery, the truck must carry at least 8 beams, and the total weight of the beams can be at most 1,440 pounds. What is the maximum number of 160-pound beams that the truck can carry per delivery?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"8"},{letter:"B",html:"10"},{letter:"C",html:"9"},{letter:"D",html:"11"}],points:1},
+  {number:2,type:"mcq",text:`For line <em>p</em>, the table shows three values of <em>x</em> and their corresponding values of <em>y</em>. Line <em>q</em> is the result of translating line <em>p</em> up 4 units in the <em>xy</em>-plane. What is the <em>x</em>-intercept of line <em>q</em>?`,graphSVG:null,tableHTML:'<table class="q-table"><thead><tr><th><em>x</em></th><th><em>y</em></th></tr></thead><tbody><tr><td>12</td><td>95</td></tr><tr><td>16</td><td>123</td></tr><tr><td>19</td><td>144</td></tr></tbody></table>',choices:[{letter:"A",html:'(&minus;<span class="frac"><span class="fnum">11</span><span class="fden">5</span></span>, 0)'},{letter:"B",html:'(&minus;2, 0)'},{letter:"C",html:'(&minus;<span class="frac"><span class="fnum">19</span><span class="fden">7</span></span>, 0)'},{letter:"D",html:'(&minus;<span class="frac"><span class="fnum">15</span><span class="fden">7</span></span>, 0)'}],points:1},
+  {number:3,type:"mcq",text:`<span class="math-block"><em>a</em><em>x</em> + <em>b</em><em>y</em> = 43</span><span class="math-block">5<em>x</em> + 4<em>b</em><em>y</em> = 79</span>In the system of equations above, <em>a</em> and <em>b</em> are constants. The graphs of these equations in the <em>xy</em>-plane intersect at the point (3, <em>y</em>). What is the value of <em>a</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"12"},{letter:"B",html:"9"},{letter:"C",html:"7"},{letter:"D",html:"5"}],points:1},
+  {number:4,type:"mcq",text:`Line <em>u</em> is defined by 6<em>y</em> &minus; 48<em>x</em> = 5. Line <em>v</em> is perpendicular to line <em>u</em> in the <em>xy</em>-plane. What is the slope of line <em>v</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'<span class="frac"><span class="fnum">1</span><span class="fden">8</span></span>'},{letter:"B",html:"8"},{letter:"C",html:'&minus;<span class="frac"><span class="fnum">1</span><span class="fden">8</span></span>'},{letter:"D",html:'&minus;8'}],points:1},
+  {number:5,type:"open",text:`The function <em>g</em> is defined by <em>g</em>(<em>x</em>) = 5(<em>x</em> &minus; <em>c</em>)(<em>x</em> &minus; 4), where <em>c</em> is a constant, and <em>g</em>(2) = 45. What is the value of <em>g</em>(5)?`,graphSVG:null,tableHTML:null,choices:null,points:1},
+  {number:6,type:"mcq",text:`<span class="math-block">5<em>x</em> &minus; 2<em>y</em> = 8</span><span class="math-block">15<em>x</em> &minus; 6<em>y</em> = 24</span>For each real number <em>p</em>, which of the following points lies on the graph of each equation in the <em>xy</em>-plane for the given system?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'(<span class="frac"><span class="fnum">2<em>p</em></span><span class="fden">5</span></span> + <span class="frac"><span class="fnum">8</span><span class="fden">5</span></span>, <em>p</em>)'},{letter:"B",html:'(<em>p</em>, &minus;<span class="frac"><span class="fnum">5<em>p</em></span><span class="fden">2</span></span> + 4)'},{letter:"C",html:'(<em>p</em>, <span class="frac"><span class="fnum">2<em>p</em></span><span class="fden">5</span></span> &minus; 4)'},{letter:"D",html:'(<span class="frac"><span class="fnum">5<em>p</em></span><span class="fden">2</span></span> + <span class="frac"><span class="fnum">8</span><span class="fden">5</span></span>, <em>p</em>)'}],points:1},
+  {number:7,type:"mcq",text:`A community theater sells tickets for a local play. The theater charges 18 dollars for each adult ticket and 12 dollars for each student ticket. If the theater sold a total of 50 tickets for one performance and the total revenue was 720 dollars, how many adult tickets were sold?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"10"},{letter:"B",html:"40"},{letter:"C",html:"20"},{letter:"D",html:"30"}],points:1},
+  {number:8,type:"mcq",text:`A rectangular billboard has a width that is 6 times its height. The function <em>y</em> = (6<em>h</em>)(<em>h</em>) represents this situation, where <em>y</em> is the area, in square feet, of the billboard and <em>h</em> &gt; 0. Which of the following is the best interpretation of 6<em>h</em> in this context?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"The width of the billboard, in feet"},{letter:"B",html:"The area of the billboard, in square feet"},{letter:"C",html:"The height of the billboard, in feet"},{letter:"D",html:"The difference between the width and the height of the billboard, in feet"}],points:1},
+  {number:9,type:"mcq",text:`<span class="math-block"><em>a</em> = &minus;<span class="frac"><span class="fnum"><em>b</em></span><span class="fden">12<em>c</em></span></span></span>The given equation relates the distinct positive numbers <em>a</em>, <em>b</em>, and <em>c</em>. Which equation correctly expresses <em>b</em> in terms of <em>a</em> and <em>c</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'<em>b</em> = &minus;12<em>a</em><em>c</em>'},{letter:"B",html:'<em>b</em> = &minus;<span class="frac"><span class="fnum">12<em>a</em></span><span class="fden"><em>c</em></span></span>'},{letter:"C",html:'<em>b</em> = &minus;<span class="frac"><span class="fnum"><em>c</em></span><span class="fden">12<em>a</em></span></span>'},{letter:"D",html:'<em>b</em> = <em>a</em> + 12<em>c</em>'}],points:1},
+  {number:10,type:"mcq",text:`<span class="math-block"><em>y</em> = &minus;3<em>x</em> + 12</span><span class="math-block"><em>y</em> = <em>x</em><sup>2</sup> &minus; 3<em>x</em> &minus; 4</span>If (<em>x</em>, <em>y</em>) is a solution to the system of equations above, which of the following could be the value of <em>x</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"4"},{letter:"B",html:"6"},{letter:"C",html:"0"},{letter:"D",html:'&minus;2'}],points:1},
+  {number:11,type:"mcq",text:`Consider the polynomial below.<span class="math-block">9<em>x</em><sup>2</sup> + 48<em>x</em><em>y</em> + 64<em>y</em><sup>2</sup></span>Which of the following expressions is a factor of the polynomial above?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'3<em>x</em> + 64<em>y</em>'},{letter:"B",html:'9<em>x</em> + 64<em>y</em>'},{letter:"C",html:'9<em>x</em> + 8<em>y</em>'},{letter:"D",html:'3<em>x</em> + 8<em>y</em>'}],points:1},
+  {number:12,type:"mcq",text:`The function <em>g</em> is defined by <em>g</em>(<em>x</em>) = |<em>x</em> &minus; 5<em>x</em>|. What value of <em>k</em> satisfies <em>g</em>(3) &minus; <em>g</em>(<em>k</em>) = &minus;20?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"12"},{letter:"B",html:"8"},{letter:"C",html:"4"},{letter:"D",html:"6"}],points:1},
+  {number:13,type:"mcq",text:`Which of the following is equivalent to <span class="math-inline" style="white-space:nowrap;"><sup style="font-size:.65em; position:relative; top:-0.45em;">6</sup><span style="font-size:1.15em;">&radic;</span><span style="display:inline-block; border-top:1.5px solid currentColor; padding:0 .15em;"><em>x</em><sup>2</sup> + 20<em>x</em> + 100</span></span>, where <em>x</em> &gt; 0?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'(<em>x</em> + 10)'},{letter:"B",html:'(<em>x</em> + 10)<sup>1/3</sup>'},{letter:"C",html:'(<em>x</em> + 10)<sup>1/2</sup>'},{letter:"D",html:'(<em>x</em> + 10)<sup>3</sup>'}],points:1},
+  {number:14,type:"mcq",text:`The product of a positive number <em>x</em> and the number that is 14 less than <em>x</em> is 576. What is the value of <em>x</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"18"},{letter:"B",html:"32"},{letter:"C",html:"24"},{letter:"D",html:"42"}],points:1},
+  {number:15,type:"open",text:`Last week, a bakery sold 120 loaves of bread. This week, the number of loaves sold is 40% greater than the number of loaves sold last week. How many loaves of bread did the bakery sell this week?`,graphSVG:null,tableHTML:null,choices:null,points:1},
+  {number:16,type:"open",text:`The table below shows the annual revenue, in billions of dollars, for the top nine biotech companies in 2018 and 2019. Based on the data in the table, how much greater, in billions of dollars, was the median annual revenue of these nine companies in 2019 than the median annual revenue in 2018?`,graphSVG:null,tableHTML:'<table class="q-table"><thead><tr><th style="min-width:160px;text-align:left">Company</th><th>2018</th><th>2019</th></tr></thead><tbody><tr><td style="text-align:left">AlphaGen</td><td>125.6</td><td>131.5</td></tr><tr><td style="text-align:left">BioCore</td><td>118.9</td><td>112.8</td></tr><tr><td style="text-align:left">Cytotech</td><td>103.2</td><td>95.1</td></tr><tr><td style="text-align:left">DynaMed</td><td>96.7</td><td>99.5</td></tr><tr><td style="text-align:left">EvoLabs</td><td>84.3</td><td>91.2</td></tr><tr><td style="text-align:left">FarmaSys</td><td>71.5</td><td>60.5</td></tr><tr><td style="text-align:left">GenX</td><td>68.1</td><td>65.2</td></tr><tr><td style="text-align:left">Helix</td><td>52.4</td><td>55.3</td></tr><tr><td style="text-align:left">Immuno</td><td>45.2</td><td>48.1</td></tr></tbody></table>',choices:null,points:1},
+  {number:17,type:"mcq",text:`A college student borrows $2,000 from a family member to purchase a laptop. The student agrees to pay back the loan at a constant rate of $100 per month. What type of model is best to model the amount of money the student still owes at any given time until the debt is fully repaid?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"A linear model with a positive slope"},{letter:"B",html:"An exponential growth model"},{letter:"C",html:"A linear model with a negative slope"},{letter:"D",html:"An exponential decay model"}],points:1},
+  {number:18,type:"mcq",text:`A sculpted marble statue has a mass of 520 grams and a volume of 40 cubic centimeters. What is the density, in grams per cubic centimeter, of the statue?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"13"},{letter:"B",html:"20,800"},{letter:"C",html:"480"},{letter:"D",html:"560"}],points:1},
+  {number:19,type:"open",text:`Each vertex of a 25-sided polygon is labeled with one of the integers 1 through 25, with a different integer at each vertex. If one vertex is selected at random, what is the probability that the integer 12 will be at the selected vertex? (Express your answer as a decimal or fraction, not as a percent.)`,graphSVG:null,tableHTML:null,choices:null,points:1},
+  {number:20,type:"mcq",text:`A commercial heavy-duty printer produces 65 pages per minute. When the printer operates for <em>p</em> minutes, it produces 65<em>p</em> pages. Which of the following expressions gives the number of pages the printer will produce if it operates for 4<em>p</em> minutes?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'4 + 65<em>p</em>'},{letter:"B",html:'4<em>p</em> + 65<em>p</em>'},{letter:"C",html:'4(65<em>p</em>)'},{letter:"D",html:'65(<em>p</em> + 4)'}],points:1},
+  {number:21,type:"mcq",text:`The number of subscribers to a streaming service increased by 45% from 2022 to 2023. If the number of subscribers in 2023 is <em>y</em> times the number of subscribers in 2022, what is the value of <em>y</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"1.045"},{letter:"B",html:"0.45"},{letter:"C",html:"4.5"},{letter:"D",html:"1.45"}],points:1},
+  {number:22,type:"open",text:`<span class="math-block"><span class="frac"><span class="fnum">48<em>x</em> + 144</span><span class="fden">8</span></span> &minus; <span class="frac"><span class="fnum"><em>c</em></span><span class="fden">15</span></span> = <em>d</em>(<em>x</em> &minus; 2)</span>In the equation above, <em>c</em> and <em>d</em> are constants and <em>c</em> &gt; 0. If the equation has infinitely many solutions, what is the value of <em>c</em>?`,graphSVG:null,tableHTML:null,choices:null,points:1},
+  {number:23,type:"mcq",text:`In the <em>xy</em>-plane, line <em>p</em> is defined by <em>x</em> &minus; 3<em>y</em> = 0. Line <em>q</em> is perpendicular to line <em>p</em>, and the <em>y</em>-intercept of line <em>q</em> is (0, &minus;2). Which of the following is an equation of line <em>q</em>?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'<em>x</em> &minus; 3<em>y</em> = &minus;2'},{letter:"B",html:'<em>x</em> + 3<em>y</em> = &minus;2'},{letter:"C",html:'3<em>x</em> &minus; <em>y</em> = &minus;2'},{letter:"D",html:'3<em>x</em> + <em>y</em> = &minus;2'}],points:1},
+  {number:24,type:"mcq",text:`The function <em>g</em>(<em>x</em>) is defined as 23 less than 7 times a number <em>x</em>. If <em>y</em> = <em>g</em>(<em>x</em>) is graphed in the <em>xy</em>-plane, what is the best interpretation of the <em>x</em>-intercept?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'When <em>g</em>(<em>x</em>) = 0, the number is <span class="frac"><span class="fnum">23</span><span class="fden">7</span></span>.'},{letter:"B",html:'The value of <em>g</em>(<em>x</em>) increases by 1 for each increase of 7 in the value of the number.'},{letter:"C",html:'When the number is 0, <em>g</em>(<em>x</em>) = &minus;23.'},{letter:"D",html:'For each increase of 1 in the value of the number, <em>g</em>(<em>x</em>) increases by 7.'}],points:1},
+  {number:25,type:"mcq",text:`<span class="math-block">49<em>x</em><sup>2</sup> + <em>k</em><em>x</em> + 16 = 0</span>In the given equation, <em>k</em> is a constant. For which of the following values of <em>k</em> will the equation have no real solutions?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'&minus;56'},{letter:"B",html:'70'},{letter:"C",html:'45'},{letter:"D",html:'&minus;60'}],points:1},
+  {number:26,type:"mcq",text:`<span class="math-block"><em>f</em>(<em>x</em>) = (<em>x</em> &minus; 5)(<em>x</em> + 12)</span>The function <em>f</em> is defined by the given equation. For what value of <em>x</em> does <em>f</em>(<em>x</em>) reach its minimum?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:'&minus;<span class="frac"><span class="fnum">7</span><span class="fden">2</span></span>'},{letter:"B",html:'&minus;12'},{letter:"C",html:'&minus;7'},{letter:"D",html:'&minus;60'}],points:1},
+  {number:27,type:"mcq",text:`Let the function <em>g</em> be defined as <span class="math-inline"><em>g</em>(<em>x</em>) = <span class="frac"><span class="fnum">(<em>x</em> &minus; <em>k</em>)<sup>2</sup> + 216</span><span class="fden">3<em>k</em></span></span></span>, where <em>k</em> is a constant. If <em>g</em>(<em>k</em>) = 12, what is the value of <em>g</em>(18)?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"24"},{letter:"B",html:"20"},{letter:"C",html:"12"},{letter:"D",html:"16"}],points:1},
+  {number:28,type:"mcq",text:`The mean mass of the 12 rock samples that a geologist collected for a study is 18.4 ounces. After one of the samples is removed from the collection, the mean mass of the remaining samples is reduced to 17.5 ounces. What is the mass, in ounces, of the sample that was removed?`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"9.9"},{letter:"B",html:"0.9"},{letter:"C",html:"10.8"},{letter:"D",html:"28.3"}],points:1},
+  {number:29,type:"mcq",text:`Data set Q consists of 65 integers between 320 and 480. Data set R consists of all the integers in data set Q as well as the integer 600. Which of the following must be greater for data set Q than for data set R?<br><br>I. The mean<br>II. The median`,graphSVG:null,tableHTML:null,choices:[{letter:"A",html:"I only"},{letter:"B",html:"Neither I nor II"},{letter:"C",html:"II only"},{letter:"D",html:"I and II"}],points:1},
+  {number:30,type:"open",text:`The number <em>x</em> is 125% greater than the positive number <em>y</em>. The number <em>z</em> is 28% less than <em>x</em>. The number <em>z</em> is how many times <em>y</em>?`,graphSVG:null,tableHTML:null,choices:null,points:1}
+];
+
+/* ══════════════════════════════════════════
+   ANSWERS + ACCESS CODE
+══════════════════════════════════════════ */
+function _d(s){try{return atob(s.split('').reverse().join(''));}catch(e){return '';}}
+const _answers = [
+  "C",
+  "D",
+  "B",
+  "C",
+  "-7.5",
+  "A",
+  "C",
+  "A",
+  "A",
+  "A",
+  "D",
+  "B",
+  "B",
+  "B",
+  "168",
+  "6.9",
+  "C",
+  "A",
+  "1/25",
+  "C",
+  "D",
+  "450",
+  "D",
+  "A",
+  "C",
+  "A",
+  "B",
+  "D",
+  "B",
+  "1.62"
+];
+const _ac = _d("==wMyEjbvlGdhVHbhZXZ");
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let studentName = "", currentIndex = 0;
+let answers = {}, crossedOut = {}, markedForReview = new Set(), savedQHTML = {};
+let timerSeconds = EXAM_DURATION_SECONDS, timerInterval = null;
+let submitted = false, lastEarned = 0, lastTotal = 0;
+let timerHidden = false, desmosCalc = null, desmosFrame = null, calcOpen = false;
+let paneResizing = false, paneStartX = 0, paneStartW = 0;
+let activeRange = null;
+
+/* ══════════════════════════════════════════
+   SESSION
+══════════════════════════════════════════ */
+function saveSession(){try{const c={};for(const[k,v]of Object.entries(crossedOut))c[k]=[...v];localStorage.setItem(LS_KEY,JSON.stringify({studentName,answers,timerSeconds,submitted,crossedOut:c,markedForReview:[...markedForReview],savedQHTML}));}catch(e){}}
+function loadSession(){try{const r=localStorage.getItem(LS_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function clearSession(){try{localStorage.removeItem(LS_KEY);}catch(e){}}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+window.addEventListener('load',()=>{const s=loadSession();if(s&&!s.submitted)document.getElementById('resume-banner').style.display='block';});
+
+/* ══════════════════════════════════════════
+   START
+══════════════════════════════════════════ */
+function startExam(){
+  const cInp=document.getElementById('access-code'),sInp=document.getElementById('student-name');
+  const code=cInp.value.trim(),sName=sInp.value.trim();
+  let valid=true;
+  if(code.toLowerCase()!==_ac.toLowerCase()){cInp.style.borderColor='#c41c1c';cInp.value='';cInp.placeholder='Wrong code — ask your teacher…';valid=false;}
+  if(!sName){sInp.style.borderColor='#c41c1c';sInp.placeholder='Please enter your name…';valid=false;}
+  if(!valid)return;
+  studentName=sName;
+  document.getElementById('footer-student-name').textContent=studentName;
+  const session=loadSession();
+  if(session&&!session.submitted&&session.studentName===studentName){
+    answers=session.answers||{};timerSeconds=session.timerSeconds||EXAM_DURATION_SECONDS;
+    crossedOut={};if(session.crossedOut)for(const[k,v]of Object.entries(session.crossedOut))crossedOut[k]=new Set(v);
+    markedForReview=new Set(session.markedForReview||[]);savedQHTML=session.savedQHTML||{};
+  }else{answers={};timerSeconds=EXAM_DURATION_SECONDS;crossedOut={};markedForReview=new Set();savedQHTML={};}
+  if(EMAILJS_PUBLIC_KEY!=="YOUR_PUBLIC_KEY")emailjs.init({publicKey:EMAILJS_PUBLIC_KEY});
+  showScreen('screen-exam');startTimer();renderQuestion();
+}
+
+/* ══════════════════════════════════════════
+   TIMER
+══════════════════════════════════════════ */
+function startTimer(){updateTimerDisplay();timerInterval=setInterval(()=>{timerSeconds--;updateTimerDisplay();saveSession();if(timerSeconds<=0){clearInterval(timerInterval);timerSeconds=0;autoSubmit();}},1000);}
+function stopTimer(){clearInterval(timerInterval);}
+function updateTimerDisplay(){
+  if(timerHidden)return;
+  const m=Math.floor(timerSeconds/60),s=timerSeconds%60;
+  const box=document.getElementById('timer-box');if(!box)return;
+  box.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  box.classList.remove('warn','crit','ghost');
+  if(timerSeconds<=60)box.classList.add('crit');else if(timerSeconds<=300)box.classList.add('warn');
+}
+function toggleTimer(){
+  timerHidden=!timerHidden;
+  const box=document.getElementById('timer-box'),tog=document.getElementById('timer-tog');
+  if(timerHidden){box.classList.add('ghost');box.classList.remove('warn','crit');box.textContent='— : —';tog.textContent='Show';}
+  else{box.classList.remove('ghost');tog.textContent='Hide';updateTimerDisplay();}
+}
+
+/* ══════════════════════════════════════════
+   RENDER QUESTION
+══════════════════════════════════════════ */
+function renderQuestion(){
+  const q=questions[currentIndex];
+  document.getElementById('q-number-label').textContent='Question '+q.number+' of '+questions.length;
+  document.getElementById('nav-q-cur').textContent=q.number;
+  const markBtn=document.getElementById('mark-review-btn');
+  if(markBtn){markBtn.classList.toggle('marked',markedForReview.has(currentIndex));markBtn.innerHTML=markedForReview.has(currentIndex)?'⚑ Marked for Review':'⚑ Mark for Review';}
+  const qc=document.getElementById('question-content');
+  if(savedQHTML[currentIndex]){qc.innerHTML=savedQHTML[currentIndex];}
+  else{
+    let html='';
+    if(q.tableHTML)html+=q.tableHTML;
+    if(q.graphSVG) html+=q.graphSVG;
+    html+='<div class="q-text">'+q.text+'</div>';
+    qc.innerHTML=html;
+  }
+  renderAnswerArea();
+  const btnPrev=document.getElementById('btn-prev'),btnNext=document.getElementById('btn-next');
+  if(btnPrev)btnPrev.disabled=(currentIndex===0);
+  if(btnNext){
+    if(currentIndex===questions.length-1){btnNext.textContent='Submit Exam';btnNext.onclick=confirmSubmit;btnNext.classList.add('last-q');}
+    else{btnNext.textContent='Next →';btnNext.onclick=nextQuestion;btnNext.classList.remove('last-q');}
+  }
+}
+function saveCurrentQHTML(){const qc=document.getElementById('question-content');if(qc){savedQHTML[currentIndex]=qc.innerHTML;saveSession();}}
+
+/* ══════════════════════════════════════════
+   ANSWER AREA
+══════════════════════════════════════════ */
+function renderAnswerArea(){
+  const q=questions[currentIndex];
+  const ansEl=document.getElementById('answer-area');if(!ansEl)return;
+  if(q.type==='mcq'){
+    const co=crossedOut[currentIndex]||new Set();
+    let html='<div class="bb-choices">';
+    q.choices.forEach(c=>{
+      const isSel=answers[currentIndex]===c.letter;
+      const isCrossed=co.has(c.letter);
+      const choiceCls='bb-choice'+(isSel?' sel':'')+(isCrossed?' xd':'');
+      const xbtnCls='bb-xbtn-ext'+(isCrossed?' crossed':'');
+      html+=`<div class="bb-choice-row">
+        <div class="${choiceCls}" onclick="handleChoiceClick(event,${currentIndex},'${c.letter}')">
+          <div class="bb-ch-inner">
+            <span class="bb-ch-letter">${c.letter}</span>
+            <span class="bb-ch-text">${c.html}</span>
+          </div>
+        </div>
+        <button class="${xbtnCls}" type="button"
+          onclick="toggleCrossOut(event,${currentIndex},'${c.letter}')"
+          title="${isCrossed?'Remove cross-out':'Cross out this choice'}">${c.letter}</button>
+      </div>`;
+    });
+    html+='</div>';
+    ansEl.innerHTML=html;
+  }else{
+    const saved=(answers[currentIndex]!==undefined)?answers[currentIndex]:'';
+    ansEl.innerHTML=`<div class="bb-open-wrap">
+      <span class="bb-open-label">Your answer</span>
+      <input class="bb-open-input" type="text" placeholder="Enter your answer…"
+        value="${saved.replace(/"/g,'&quot;')}"
+        oninput="saveOpenAnswer(${currentIndex},this.value)"/>
+    </div>`;
+  }
+}
+
+/* ══════════════════════════════════════════
+   MCQ INTERACTIONS
+══════════════════════════════════════════ */
+function handleChoiceClick(event,idx,letter){
+  const co=crossedOut[idx]||new Set();if(co.has(letter))return;
+  if(answers[idx]===letter)delete answers[idx];else answers[idx]=letter;
+  renderAnswerArea();saveSession();
+}
+function toggleCrossOut(event,idx,letter){
+  event.stopPropagation();
+  if(!crossedOut[idx])crossedOut[idx]=new Set();
+  if(crossedOut[idx].has(letter)){crossedOut[idx].delete(letter);}
+  else{crossedOut[idx].add(letter);if(answers[idx]===letter)delete answers[idx];}
+  renderAnswerArea();saveSession();
+}
+function saveOpenAnswer(idx,val){answers[idx]=val.trim();saveSession();}
+
+/* ══════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════ */
+function nextQuestion(){if(currentIndex<questions.length-1){currentIndex++;renderQuestion();}}
+function prevQuestion(){if(currentIndex>0){currentIndex--;renderQuestion();}}
+function jumpToQuestion(i){currentIndex=i;renderQuestion();}
+function toggleMarkForReview(){
+  if(markedForReview.has(currentIndex))markedForReview.delete(currentIndex);else markedForReview.add(currentIndex);
+  const btn=document.getElementById('mark-review-btn');
+  if(btn){btn.classList.toggle('marked',markedForReview.has(currentIndex));btn.innerHTML=markedForReview.has(currentIndex)?'⚑ Marked for Review':'⚑ Mark for Review';}
+  saveSession();
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATOR
+══════════════════════════════════════════ */
+function openNavigator(){renderNavPalette();document.getElementById('nav-overlay').classList.remove('hidden');}
+function closeNavigator(){document.getElementById('nav-overlay').classList.add('hidden');}
+function renderNavPalette(){
+  const pal=document.getElementById('nav-palette');pal.innerHTML='';
+  questions.forEach((q,i)=>{
+    const btn=document.createElement('button');btn.type='button';btn.className='bb-nav-q';btn.textContent=q.number;
+    if(i===currentIndex)btn.classList.add('cur');
+    else if(answers[i]!==undefined&&answers[i]!=='')btn.classList.add('ans');
+    if(markedForReview.has(i))btn.classList.add('mrk');
+    btn.onclick=()=>{jumpToQuestion(i);closeNavigator();};pal.appendChild(btn);
+  });
+}
+
+/* ══════════════════════════════════════════
+   DIRECTIONS
+══════════════════════════════════════════ */
+function openDirections(){document.getElementById('dir-overlay').classList.remove('hidden');}
+function closeDirections(){document.getElementById('dir-overlay').classList.add('hidden');}
+
+/* ══════════════════════════════════════════
+   CALCULATOR
+══════════════════════════════════════════ */
+function toggleCalculator(){
+  calcOpen=!calcOpen;
+  const pane=document.getElementById('calc-pane'),divider=document.getElementById('pane-divider'),btn=document.getElementById('calc-toggle-btn');
+  if(calcOpen){
+    pane.classList.remove('hidden');divider.classList.remove('hidden');btn.classList.add('active-tool');
+    if(!desmosCalc&&!desmosFrame)loadDesmos();else resizeDesmosFrame();
+  }else{
+    pane.classList.add('hidden');divider.classList.add('hidden');btn.classList.remove('active-tool');
+  }
+}
+function loadDesmos(){
+  const wrap=document.getElementById('desmos-wrap');
+  wrap.innerHTML='';
+  desmosFrame=document.createElement('iframe');
+  desmosFrame.title='Desmos Calculator';
+  desmosFrame.setAttribute('aria-label','Desmos Calculator');
+  desmosFrame.setAttribute('loading','eager');
+  desmosFrame.referrerPolicy='no-referrer';
+  desmosFrame.style.width='100%';
+  desmosFrame.style.height='100%';
+  desmosFrame.style.border='0';
+  desmosFrame.style.display='block';
+  desmosFrame.style.background='#ffffff';
+  wrap.appendChild(desmosFrame);
+
+  const doc=desmosFrame.contentDocument;
+  if(!doc){
+    wrap.innerHTML='<div style="height:100%;display:flex;align-items:center;justify-content:center;color:#c41c1c;font-size:.82rem;">Calculator could not be loaded.</div>';
+    desmosFrame=null;
+    return;
+  }
+
+  doc.open();
+  doc.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desmos Calculator</title>
+<style>
+  html,body{
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    background:#ffffff;
+    overflow:hidden;
+  }
+  #desmos-root{
+    width:100%;
+    height:100%;
+  }
+  .loading,.error{
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:20px;
+    color:#6b7280;
+    font:14px Arial,sans-serif;
+  }
+  .error{color:#c41c1c;}
+</style>
+</head>
+<body>
+<div id="desmos-root"><div class="loading">Loading calculator…</div></div>
+</body>
+</html>`);
+  doc.close();
+
+  const script=doc.createElement('script');
+  script.src='https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
+  script.onload=()=>{
+    try{
+      const root=doc.getElementById('desmos-root');
+      root.innerHTML='';
+      desmosCalc=desmosFrame.contentWindow.Desmos.GraphingCalculator(root,{
+        keypad:true,
+        settingsMenu:false,
+        expressionsTopbar:true
+      });
+      resizeDesmosFrame();
+    }catch(e){
+      rootError('Failed to initialize.');
+    }
+  };
+  script.onerror=()=>rootError('Calculator could not be loaded. Check your connection.');
+  doc.head.appendChild(script);
+
+  function rootError(message){
+    const root=doc.getElementById('desmos-root');
+    if(root)root.innerHTML='<div class="error">'+message+'</div>';
+  }
+}
+function resizeDesmosFrame(){
+  if(desmosCalc)try{desmosCalc.resize();}catch(ex){}
+}
+
+window.addEventListener('resize',()=>{ if(calcOpen)resizeDesmosFrame(); });
+
+/* ══════════════════════════════════════════
+   PANE RESIZE
+══════════════════════════════════════════ */
+function startPaneResize(e){
+  e.preventDefault();paneResizing=true;paneStartX=e.clientX;
+  paneStartW=document.getElementById('calc-pane').getBoundingClientRect().width;
+  document.getElementById('pane-divider').classList.add('dragging');
+  document.addEventListener('mousemove',doPaneResize);document.addEventListener('mouseup',stopPaneResize);
+  document.body.style.cursor='col-resize';document.body.style.userSelect='none';
+}
+function doPaneResize(e){
+  if(!paneResizing)return;
+  const main=document.getElementById('bb-main'),pane=document.getElementById('calc-pane');
+  let newW=paneStartW+(e.clientX-paneStartX);
+  newW=Math.max(260,Math.min(main.getBoundingClientRect().width*0.72,newW));
+  pane.style.width=newW+'px';pane.style.minWidth='unset';pane.style.maxWidth='unset';
+  resizeDesmosFrame();
+}
+function stopPaneResize(){
+  paneResizing=false;document.getElementById('pane-divider').classList.remove('dragging');
+  document.removeEventListener('mousemove',doPaneResize);document.removeEventListener('mouseup',stopPaneResize);
+  document.body.style.cursor='';document.body.style.userSelect='';
+}
+
+/* ══════════════════════════════════════════
+   LOGO UPLOAD
+══════════════════════════════════════════ */
+function handleLogoUpload(event){
+  const file=event.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(e){
+    const img=document.getElementById('logo-img'),ph=document.getElementById('logo-placeholder');
+    img.src=e.target.result;img.style.display='block';ph.style.display='none';
+    const area=document.getElementById('logo-area');area.style.border='none';area.style.background='transparent';
+  };reader.readAsDataURL(file);
+}
+
+/* ══════════════════════════════════════════
+   HIGHLIGHT TOOLBAR
+══════════════════════════════════════════ */
+const hlToolbar=document.getElementById('hl-toolbar');
+let hlToolbarTimeout=null;
+function showHlToolbar(x,y){
+  hlToolbar.style.left=x+'px';hlToolbar.style.top=y+'px';
+  hlToolbar.classList.add('visible');
+  clearTimeout(hlToolbarTimeout);hlToolbarTimeout=setTimeout(hideHlToolbar,8000);
+}
+function hideHlToolbar(){hlToolbar.classList.remove('visible');activeRange=null;clearTimeout(hlToolbarTimeout);}
+document.addEventListener('mouseup',function(e){
+  if(e.target.closest('#hl-toolbar'))return;
+  const sel=window.getSelection();
+  if(!sel||sel.isCollapsed||sel.toString().trim()===''){
+    const hlSpan=e.target.closest('.hl-yellow,.hl-blue,.hl-pink,.hl-ul');
+    if(hlSpan){
+      const qc=document.getElementById('question-content');
+      if(qc&&qc.contains(hlSpan)){
+        activeRange=null;hlToolbar._hlSpan=hlSpan;
+        const rect=hlSpan.getBoundingClientRect();
+        const x=Math.max(8,Math.min(rect.left+rect.width/2-90,window.innerWidth-200));
+        const y=rect.top-52+window.scrollY;
+        showHlToolbar(Math.max(8,x),Math.max(8,y));return;
+      }
+    }
+    if(!e.target.closest('#hl-toolbar'))hideHlToolbar();return;
+  }
+  const qc=document.getElementById('question-content');if(!qc)return;
+  const range=sel.getRangeAt(0);
+  if(!qc.contains(range.commonAncestorContainer)){hideHlToolbar();return;}
+  activeRange=range.cloneRange();hlToolbar._hlSpan=null;
+  const rect=range.getBoundingClientRect();
+  const tbW=195;
+  const x=Math.max(8,Math.min(rect.left+rect.width/2-tbW/2,window.innerWidth-tbW-8));
+  const y=rect.top-54+window.scrollY;
+  showHlToolbar(x,Math.max(8,y));
+});
+document.addEventListener('keyup',function(){const sel=window.getSelection();if(!sel||sel.isCollapsed)hideHlToolbar();});
+function applyHighlight(color){
+  const classMap={yellow:'hl-yellow',blue:'hl-blue',pink:'hl-pink'};
+  const cls=classMap[color];if(!cls)return;
+  const sel=window.getSelection();
+  let r=activeRange;if(!r&&sel&&!sel.isCollapsed)r=sel.getRangeAt(0);if(!r)return;
+  wrapRange(r,cls);if(sel)sel.removeAllRanges();saveCurrentQHTML();hideHlToolbar();
+}
+function applyUnderline(){
+  const sel=window.getSelection();
+  let r=activeRange;if(!r&&sel&&!sel.isCollapsed)r=sel.getRangeAt(0);if(!r)return;
+  wrapRange(r,'hl-ul');if(sel)sel.removeAllRanges();saveCurrentQHTML();hideHlToolbar();
+}
+function wrapRange(range,className){
+  try{const span=document.createElement('span');span.className=className;range.surroundContents(span);}
+  catch(e){try{const span=document.createElement('span');span.className=className;span.appendChild(range.extractContents());range.insertNode(span);}catch(e2){}}
+}
+function removeHighlight(){
+  if(hlToolbar._hlSpan){
+    const span=hlToolbar._hlSpan,parent=span.parentNode;
+    if(parent){while(span.firstChild)parent.insertBefore(span.firstChild,span);parent.removeChild(span);parent.normalize();}
+    saveCurrentQHTML();hideHlToolbar();return;
+  }
+  const sel=window.getSelection();if(!sel||sel.isCollapsed){hideHlToolbar();return;}
+  const range=sel.getRangeAt(0);
+  const el=range.commonAncestorContainer.parentElement;
+  if(el&&['hl-yellow','hl-blue','hl-pink','hl-ul'].some(c=>el.classList.contains(c))){
+    const parent=el.parentNode;while(el.firstChild)parent.insertBefore(el.firstChild,el);parent.removeChild(el);parent.normalize();saveCurrentQHTML();
+  }
+  sel.removeAllRanges();hideHlToolbar();
+}
+
+/* ══════════════════════════════════════════
+   SUBMIT FLOW
+══════════════════════════════════════════ */
+function confirmSubmit(){
+  if(submitted)return;
+  const un=questions.filter((_,i)=>!answers[i]||answers[i]==='').length;
+  document.getElementById('modal-message').textContent=un>0?`You have ${un} unanswered question${un>1?'s':''}. Are you sure you want to submit?`:'Are you ready to submit? This action cannot be undone.';
+  const btn=document.getElementById('modal-confirm-btn');btn.textContent=un>0?'Submit Anyway':'Submit Exam';btn.onclick=finalSubmit;
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+function closeModal(){document.getElementById('modal-overlay').classList.add('hidden');}
+function autoSubmit(){if(!submitted)finalSubmit();}
+function finalSubmit(){
+  if(submitted)return;submitted=true;closeModal();stopTimer();clearSession();
+  const endTime=new Date(),spent=EXAM_DURATION_SECONDS-timerSeconds;
+  const{earned,total}=generateResults(endTime,spent);lastEarned=earned;lastTotal=total;
+  document.getElementById('score-fraction').textContent=earned+' / '+total;
+  document.getElementById('score-pct').textContent=((earned/total)*100).toFixed(1)+'% correct';
+  document.getElementById('score-display').style.display='inline-block';
+  showScreen('screen-submitted');
+}
+function fmt(s){return Math.floor(s/60)+'m '+(s%60)+'s';}
+function normalizeAnswerValue(v){
+  return String(v??'').trim().replace(/,/g,'').replace(/\u2212/g,'-');
+}
+function parseSimpleNumber(v){
+  const s=normalizeAnswerValue(v).replace(/\s+/g,'');
+  if(/^[-+]?\d+(?:\.\d+)?$/.test(s))return parseFloat(s);
+  if(/^[-+]?\d+\/-?\d+$/.test(s)){
+    const[n,d]=s.split('/').map(Number);
+    if(d!==0)return n/d;
+  }
+  return null;
+}
+function answersMatch(studentAnswer, correctAnswer, type){
+  const sa = String(studentAnswer ?? '').trim();
+  const ca = String(correctAnswer ?? '').trim();
+
+  // blank student answer is never correct
+  if (sa === '') return false;
+
+  if (type === 'mcq') {
+    return sa.toUpperCase() === ca.toUpperCase();
+  }
+
+  const ns = normalizeAnswerValue(sa);
+  const nc = normalizeAnswerValue(ca);
+
+  // extra safety after normalization
+  if (ns === '') return false;
+
+  // exact text match
+  if (ns.toUpperCase() === nc.toUpperCase()) return true;
+
+  // numeric match (so 0.5 and 1/2 can match if needed)
+  const a = parseSimpleNumber(ns);
+  const b = parseSimpleNumber(nc);
+
+  return a !== null && b !== null && Math.abs(a - b) < 1e-9;
+}
+function generateResults(endTime,spent){
+  let total=0,earned=0;
+  const qr=questions.map((q,i)=>{const sa=answers[i]||'';const ok=answersMatch(sa,_answers[i],q.type);total+=q.points;if(ok)earned+=q.points;return{questionNumber:q.number,type:q.type,pointValue:q.points,studentAnswer:sa,correct:ok};});
+  const jsonData={examTitle:EXAM_TITLE,studentName,submissionDate:endTime.toLocaleDateString(),submissionTime:endTime.toLocaleTimeString(),totalTimeSpent:fmt(spent),score:{earned,total,percentage:((earned/total)*100).toFixed(1)+'%'},questions:qr};
+  sendResultsByEmail(jsonData,earned,total);return{earned,total};
+}
+function sendResultsByEmail(jsonData,earned,total){
+  const el=document.getElementById('email-status');
+  if(EMAILJS_PUBLIC_KEY==="YOUR_PUBLIC_KEY"){el.className='email-status failed';el.textContent='⚠ EmailJS not configured.';return;}
+  el.className='email-status sending';el.textContent='Sending results to teacher…';
+  const SECRET="LEVAL2025",ts=Date.now(),token=btoa(SECRET+"|"+studentName+"|"+ts).slice(0,20);
+  emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:RECIPIENT_EMAIL,subject:'✅ [VERIFIED] '+EXAM_TITLE+' — '+studentName+' ('+earned+'/'+total+')',student_name:studentName,score:earned+' / '+total+' ('+((earned/total)*100).toFixed(1)+'%)',exam_date:jsonData.submissionDate+' at '+jsonData.submissionTime,time_spent:jsonData.totalTimeSpent,results_json:JSON.stringify(jsonData,null,2),verification:'🔐 Token: '+token+' | Starts with: '+SECRET.slice(0,3)+'***'})
+    .then(()=>{el.className='email-status sent';el.textContent='Results emailed to Ali';})
+    .catch(err=>{el.className='email-status failed';el.textContent='Email failed: '+(err.text||err);});
+}
+
+/* ══════════════════════════════════════════
+   REVIEW
+══════════════════════════════════════════ */
+function showReview(){
+  const body=document.getElementById('review-body');body.innerHTML='';
+  document.getElementById('review-score-pill').textContent=lastEarned+' / '+lastTotal+' correct';
+  questions.forEach((q,i)=>{
+    const sa=(answers[i]||'').trim(),ca=_answers[i].trim();
+    const isCorrect=answersMatch(sa,ca,q.type),isSkipped=sa==='';
+    let badgeClass,badgeText;
+    if(isSkipped){badgeClass='skipped';badgeText='Not Answered';}else if(isCorrect){badgeClass='correct';badgeText='Correct';}else{badgeClass='wrong';badgeText='Incorrect';}
+    let qHtml='';
+    if(q.tableHTML)qHtml+=q.tableHTML;if(q.graphSVG)qHtml+=q.graphSVG;qHtml+='<div>'+q.text+'</div>';
+    let ansHtml='<div class="review-answers">';
+    if(q.type==='mcq'){
+      if(!isSkipped){const chosen=q.choices.find(c=>c.letter===sa);ansHtml+=`<div class="review-answer-row ${isCorrect?'student-correct':'student-wrong'}"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Your answer:</span><span class="review-ans-value">${sa}${chosen?' — '+chosen.html:''}</span></div>`;}
+      else{ansHtml+=`<div class="review-answer-row skipped-row"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Your answer:</span><span class="review-ans-value" style="color:var(--text-m)">Not answered</span></div>`;}
+      if(!isCorrect){const correct=q.choices.find(c=>c.letter===ca);ansHtml+=`<div class="review-answer-row correct-ans"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Correct answer:</span><span class="review-ans-value">${ca}${correct?' — '+correct.html:''}</span></div>`;}
+    }else{
+      ansHtml+=!isSkipped?`<div class="review-answer-row ${isCorrect?'student-correct':'student-wrong'}"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Your answer:</span><span class="review-ans-value">${sa}</span></div>`:`<div class="review-answer-row skipped-row"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Your answer:</span><span class="review-ans-value" style="color:var(--text-m)">Not answered</span></div>`;
+      if(!isCorrect)ansHtml+=`<div class="review-answer-row correct-ans"><span class="review-ans-icon" aria-hidden="true"></span><span class="review-ans-label">Correct answer:</span><span class="review-ans-value">${ca}</span></div>`;
+    }
+    ansHtml+='</div>';
+    const card=document.createElement('div');card.className='review-card';
+    card.innerHTML=`<div class="review-card-header"><span class="review-q-num">Question ${q.number}</span><span class="review-badge ${badgeClass}">${badgeText}</span></div><div class="review-card-body">${qHtml}${ansHtml}</div>`;
+    body.appendChild(card);
+  });
+  showScreen('screen-review');
+}
+
+/* ══════════════════════════════════════════
+   BACKDROP CLICKS
+══════════════════════════════════════════ */
+document.getElementById('nav-overlay').addEventListener('click',function(e){if(e.target===this)closeNavigator();});
+document.getElementById('dir-overlay').addEventListener('click',function(e){if(e.target===this)closeDirections();});
+document.getElementById('hl-toolbar').addEventListener('mousedown',e=>e.stopPropagation());
+</script>
+
+</body>
+</html>

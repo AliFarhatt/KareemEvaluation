@@ -1220,16 +1220,22 @@ function loadDesmos(){
   doc.close();
 
   const script=doc.createElement('script');
-  script.src='https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
+  script.src='https://www.desmos.com/api/v1.11/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6';
   script.onload=()=>{
     try{
       const root=doc.getElementById('desmos-root');
       root.innerHTML='';
-      desmosCalc=desmosFrame.contentWindow.Desmos.GraphingCalculator(root,{
-        keypad:true,
-        settingsMenu:false,
-        expressionsTopbar:true
-      });
+      desmosCalc = desmosFrame.contentWindow.Desmos.GraphingCalculator(root, {
+      keypad: true,
+      settingsMenu: false,
+      expressionsTopbar: true,
+      customRegressions: true,
+      regressionTemplates: true,
+      zoomFit: true,
+      notes: false,
+      folders: false,
+      images: false
+    });
       resizeDesmosFrame();
     }catch(e){
       rootError('Failed to initialize.');
